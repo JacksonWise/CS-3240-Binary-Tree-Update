@@ -1,0 +1,235 @@
+//	upfils2.org	2013 may 21
+//
+//	Shows organization of instructor's "upfils2.cpp".
+//	Modified from upfils2.cpp.
+//	This reshapes whenever height(tree) becomes
+//	greater than original height + delta; or whenever the number of nodes
+//	in the tree becomes less than twoin(k)/2, where k is the number of 
+//	nodes in the most recently reshaped tree.
+//
+
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <new.h>
+#include <stdlib.h>
+#include <string.h>
+
+using namespace std;
+
+	struct mrec {
+		unsigned int acct;
+		char name[25];			// strlen( name ) <= 24
+		float baln;
+	};
+
+	struct node {
+		node *left;
+		mrec info;
+		node *rite;
+	};
+
+	struct trec {
+		unsigned int acct;
+		char name[25];
+		float tran;
+	};
+
+	node *const nill=(node *)0;
+	const unsigned int arraysize=32;	// fllg of max. no. of nodes in complete tree
+	const unsigned int delta=2;
+	const unsigned int ssize=32;		// size of stack in reshape
+	unsigned int hi,lo,mhz=????;		// FIND YOUR PROCESSOR SPEED
+
+int
+main( int argc,char **argv )
+{
+	node *lltoct( unsigned int,node * );
+	int newerr( size_t );
+	unsigned int timeout( void );
+	void chop( node * ),fitoll( ifstream &,unsigned int &,node *& ),
+		output( const node *,ofstream & ),timein( void ),
+		update( node *&,unsigned int &,ifstream &,unsigned int &,unsigned int &,unsigned int & );
+
+	ifstream fp0,fp1;		// masfil, tranfil
+	ofstream fp2;			// newmas
+	node *tree;
+	unsigned int del,ins,maxh,n,t;
+	char ch;
+
+	if ( argc != 4 ) {
+		cout << "** use is >upfils2 masfil tranfil newmasfil **\n";
+		exit( 1 );
+	}
+	_set_new_handler( newerr );
+	fp0.open( *++argv,ios::in | ios::binary );
+	if ( fp0.fail() ) {
+		cout << "** can't open \"" << *argv << "\" **\n";
+		exit( 1 );
+	}
+	fp1.open( *++argv,ios::in | ios::binary );
+	if ( fp1.fail() ) {
+		fp0.close();
+		cout << "** can't open \"" << *argv << "\" **\n";
+		exit( 1 );
+	}
+	fp2.open( *++argv,ios::in | ios::binary );
+	if ( !fp2.fail() ) {
+		cout << "** \"" << *argv << "\" exists **; overwrite? (y/n) ";
+		cin.get( ch );
+		if ( ch != '\n' ) {
+			while ( cin.get() != '\n' ) {
+				;
+			}
+		}
+		if ( (ch != 'y') && (ch != 'Y') ) {
+			fp0.close();
+			fp1.close();
+			fp2.close();
+			cout << "-- ok: \"" << *argv << "\" is unchanged --\n";
+			exit( 0 );
+		}
+		fp2.close();
+	}
+	fp2.clear();
+	fp2.open( *argv,ios::out | ios::binary );
+	if ( fp2.fail() ) {
+		fp0.close();
+		fp1.close();
+		cout << "** can't open \"" << *argv << "\" **\n";
+		exit( 1 );
+	}
+	timein();
+	fitoll( fp0,n,tree );
+	t = timeout();
+	fp0.close();
+	cout << "-- read " << n << " recs into linked list --; "
+		<< (t+500)/1000 << " msec\n";
+	timein();
+	tree = lltoct( n,tree );
+	t = timeout();
+	cout << "-- made complete binary tree --; "
+		<< (t+500)/1000 << " msec\n";
+	timein();
+	update( tree,n,fp1,del,ins,maxh );
+	t = timeout();
+	fp1.close();
+	cout << "-- updated --:\n   " << del << " del; " << ins << " ins; "
+		<< del+ins << " changes; max height = " << maxh
+		<< "; " << (t+500)/1000 << " msec\n";
+	timein();
+	output( tree,fp2 );
+	t = timeout();
+	fp2.close();
+	cout << "-- wrote " << n << " recs to file \"" << *argv << "\" --; "
+		<< (t+500)/1000 << " msec\n";
+	timein();
+	chop( tree );
+	t = timeout();
+	cout << "-- chopped down tree --; " << (t+500)/1000 << " msec\n";
+	return( 0 );
+}
+void
+chop( node *p )
+{
+}
+void
+fitoll( ifstream & f,unsigned int & n,node * & head )
+{
+	node *p,*q;
+	mrec rec;
+}
+void
+fix( node *& tree,unsigned int & n,unsigned int & h,unsigned int & maxh0,unsigned int & n0 )
+{
+	node *reshape( node *,unsigned int & );
+	unsigned int fllg( unsigned int );
+}
+unsigned int
+fllg( unsigned int x )
+{
+	__asm {
+		bsr	eax,x
+	}
+}
+void
+freeleaf( node *p,node *q )
+{
+}
+unsigned int
+isleaf( node *p )
+{
+}
+node *
+lltoct( unsigned int n,node *q )
+{
+	unsigned int fllg( unsigned int ),nu2( unsigned int );
+
+	node *last[arraysize],*p;	// n < 2**arraysize
+	unsigned int b,h,i,l;
+	char pat[arraysize];		// very short ints: 0 or 1
+}
+int
+newerr( size_t x )
+{
+	cout << "** new has failed **\n";
+	exit( 1 );
+}
+unsigned int
+nu2( unsigned int x )
+{
+	__asm {
+		bsf	eax,x
+	}
+}
+void
+output( const node *p,ofstream & f )
+{
+}
+void
+remove( node *p,node *q )
+{
+	void freeleaf( node *,node * );
+	unsigned int isleaf( node *);
+
+	node *r,*s;
+}	
+node *
+reshape( node *root,unsigned int & n )
+{
+	unsigned int fllg( unsigned int ),nu2( unsigned int );
+
+	node *last[arraysize],*p,*q,*stack[ssize],**t;
+	unsigned int b,h,i,l;
+	char pat[arraysize];		// very short ints: 0 or 1
+}
+void
+timein()
+{
+	__asm {
+		rdtsc
+		mov	hi,edx
+		mov	lo,eax
+	}
+}
+unsigned int
+timeout()
+{
+	__asm {
+		rdtsc
+		sub	eax,lo
+		sbb	edx,hi
+		div	dword ptr mhz
+	}
+}
+void
+update( node *& tree,unsigned int & n,ifstream & f,unsigned int & del,unsigned int & ins,unsigned int & maxh )
+{
+	unsigned int fllg( unsigned int );
+	void remove( node *,node * ),
+		fix( node *&,unsigned int &,unsigned int &,unsigned int &,unsigned int & );
+
+	node *p,*q;
+	trec rec;
+	unsigned int chg,h,l,maxh0,n0;
+}
